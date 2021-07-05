@@ -31,13 +31,12 @@ if(!is_dir('images')){
 if(empty($errors)){
     $image = $_FILES['image'] ?? null;
     $imagePath = '';
-    if ($image){
+    if ($image && $image['tmp_name']){
 
         $imagePath = 'images/'.randomString(8).'/'.$image['name']; 
         mkdir(dirname($imagePath)); 
         move_uploaded_file($image['tmp_name'], $imagePath);
     }
-    exit;
 $statement = $pdo->prepare("INSERT INTO products_crud.products (title, image, description, price, create_date)
                VALUES (:title, :image, :description, :price, :date)");
 $statement->bindValue(':title', $title);
@@ -60,7 +59,7 @@ function randomString($n){
     return $str;
 
 }
-
+ 
 ?>
 
 
